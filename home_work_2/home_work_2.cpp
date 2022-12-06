@@ -6,7 +6,6 @@
 #include <cstring>
 class Adress {
 private:
-    int N = 0;
     std::string city = "";
     std::string street = "";
     int num1 = 0;
@@ -14,15 +13,7 @@ private:
     std::string print = "";
 
 public:
-
     Adress() {}
-    Adress(int N) {
-        this->N = N;
-        if (N == 0) {
-            std::cout << "Ошибка! Незльзя создать пустой адрес";
-        }
-    }
-
     void add_adress(std::fstream& fin) {
         fin >> city;
         fin >> street;
@@ -33,25 +24,18 @@ public:
         print = city + ", " + street + ", " + std::to_string(num1) + ", " + std::to_string(num2) + "\n";
         return print;
     }
- 
-    std::string ci() {
-        return city;
-    }
 };
 
 void sort(Adress* arr, int size) {
-    std::string tmp;
     bool y = true;
-    char* str = new char[30];
-    // не могу понять, как привести строку полученную из arr[i].ci к массиву чаров,  strcpy  выдает ошибку 
     do {
-        for (int i = 0; i < size - 1; ++i) {
+        for (int i = 0; i < size - 1 ; ++i) {
+            if (arr[i].get_print() > arr[i + 1].get_print()) {
+                Adress tmp = arr[i];
+                arr[i] = arr[i + 1];
+                arr[i + 1] = tmp;
 
-            if (arr[i].ci() < arr[i + 1].ci()) {
-                
-
-                
-                true;
+                y = true;
             }
             else {
                 y = false;
@@ -69,18 +53,17 @@ int main()
     fin.open("in.txt");
     fout.open("out.txt");
     fin >> N;
-    Adress adress(N);
+    Adress adress;
     Adress* arr = new Adress[N];
     for (int i = 0; i < N; ++i) {
-        adress.add_adress(fin);
-        arr[i] = adress;
+        arr[i].add_adress(fin);
 
     }
     fout << N << "\n";
-    
+    sort(arr, N);
     for (int i = 0; i < N; ++i) {
-       // sort(&arr[i], N);
-        fout << adress.get_print();
+      
+        fout << arr[i].get_print();
     }
     fin.close();
     fout.close();
