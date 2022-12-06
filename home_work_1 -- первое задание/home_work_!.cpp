@@ -4,37 +4,28 @@
 #include<fstream>
 #include <string>
 class Adress {
-private: 
-    int N = 0;
+private:
     std::string city = "";
     std::string street = "";
     int num1 = 0;
     int num2 = 0;
     std::string print = "";
-    
+
 public:
-
-    Adress (){}
-    Adress(int N) {
-        this->N = N;
-        if (N == 0) {
-            std::cout << "Ошибка! Незльзя создать пустой адрес";
-        }
+    void add_adress(std::fstream& fin) {
+        fin >> city;
+        fin >> street;
+        fin >> num1;
+        fin >> num2;
     }
-    
-    void add_adress(std::fstream &fin) {
-            fin >> city;
-            fin >> street;
-            fin >> num1;
-            fin >> num2;
-        }
-        std::string  get_print() {
-            print = city + ", " + street + ", " + std::to_string(num1) + ", " + std::to_string(num2) + "\n";
-            return print;
-        }
+    std::string  get_print() {
+        print = city + ", " + street + ", " + std::to_string(num1) + ", " + std::to_string(num2) + "\n";
+        return print;
+    }
+};
     
 
-};
+
 int main()
 {
     SetConsoleCP(1251);
@@ -45,12 +36,11 @@ int main()
     fin.open("in.txt");
     fout.open("out.txt");
     fin >> N;
-    Adress adress(N);
+    Adress adress;
     Adress* arr = new Adress[N];
     for (int i = 0; i < N; ++i) {
-        adress.add_adress(fin);
-        arr[i] = adress;
-        
+        arr[i].add_adress(fin);
+
 }
     fout << N << "\n";
     
